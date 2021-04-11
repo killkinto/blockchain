@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="quote"
+            type="com.killkinto.blockchain.data.Quote" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_normal">
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/calendar_img"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/ic_baseline_calendar_today_24" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/datetime_txt"
+            style="@style/TextStyleRegular"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_normal"
+            app:datetime="@{quote.timestamp}"
+            app:layout_constraintBottom_toBottomOf="@+id/calendar_img"
+            app:layout_constraintStart_toEndOf="@+id/calendar_img"
+            app:layout_constraintTop_toTopOf="@+id/calendar_img"
+            tools:text="09/04/2021" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/monetary_img"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_large"
+            app:layout_constraintBaseline_toBaselineOf="@+id/calendar_img"
+            app:layout_constraintStart_toEndOf="@+id/datetime_txt"
+            app:srcCompat="@drawable/ic_baseline_attach_money_24" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/value_txt"
+            style="@style/TextStyleRegular"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_normal"
+            android:text="@{Double.toString(quote.value)}"
+            app:layout_constraintBottom_toBottomOf="@+id/monetary_img"
+            app:layout_constraintStart_toEndOf="@+id/monetary_img"
+            app:layout_constraintTop_toTopOf="@+id/monetary_img"
+            tools:text="3,818229166" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

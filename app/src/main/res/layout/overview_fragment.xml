@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="viewmodel"
+            type="com.killkinto.blockchain.overview.OverviewViewModel" />
+
+        <import type="android.view.View" />
+
+        <import type="com.killkinto.blockchain.overview.Status" />
+    </data>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="@{viewmodel.status == Status.DONE ? View.VISIBLE : View.GONE}"
+            tools:context=".overview.OverviewFragment">
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/quote_card"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/margin_large"
+                app:cardBackgroundColor="@color/indigo_700"
+                app:cardCornerRadius="8dp"
+                app:cardElevation="@dimen/card_elevation"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:id="@+id/calendar_img"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/margin_large"
+                        android:layout_marginStart="64dp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:srcCompat="@drawable/ic_baseline_calendar_today_36" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/datetime_txt"
+                        style="@style/TextStyleBold"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginStart="@dimen/margin_normal"
+                        app:datetime="@{viewmodel.quotes.size() > 0 ? viewmodel.lastQuote.timestamp : 0L}"
+                        app:layout_constraintBottom_toBottomOf="@id/calendar_img"
+                        app:layout_constraintStart_toEndOf="@id/calendar_img"
+                        app:layout_constraintTop_toTopOf="@id/calendar_img"
+                        tools:text="10/04/2021" />
+
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:id="@+id/monetary_img"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="@dimen/margin_large"
+                        android:layout_marginTop="@dimen/margin_normal"
+                        app:layout_constraintStart_toStartOf="@id/calendar_img"
+                        app:layout_constraintTop_toBottomOf="@id/calendar_img"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:srcCompat="@drawable/ic_baseline_attach_money_36" />
+
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/value_txt"
+                        style="@style/TextStyleBold"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginStart="@dimen/margin_normal"
+                        android:text="@{Double.toString(viewmodel.quotes.size() > 0 ? viewmodel.lastQuote.value : 0.0)}"
+                        app:layout_constraintTop_toTopOf="@id/monetary_img"
+                        app:layout_constraintBottom_toBottomOf="@id/monetary_img"
+                        app:layout_constraintStart_toEndOf="@id/monetary_img"
+                        tools:text="3.89218749" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </androidx.cardview.widget.CardView>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/quote_list"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/margin_large"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/quote_card"
+                app:listData="@{viewmodel.quotes.size() > 0 ? viewmodel.otherQuotes : null}"
+                tools:listitem="@layout/quote_item" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/loading_img"
+            android:layout_width="96dp"
+            android:layout_height="96dp"
+            android:scaleType="fitXY"
+            android:layout_centerInParent="true"
+            app:statusImage="@{viewmodel.status}"
+            tools:srcCompat="@drawable/loading_img"
+            tools:visibility="visible" />
+    </RelativeLayout>
+</layout>
